@@ -253,15 +253,8 @@ jobs:
         lunch ${{ steps.buildtree.outputs.value }}_${{ inputs.DEVICE_NAME }}-eng && make ${{ inputs.BUILD_TARGET }}image -j$(nproc --all)
       working-directory: workspace
 
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          workspace/out/target/product/${{ inputs.DEVICE_NAME }}/${{ inputs.BUILD_TARGET }}.img
-        name: ${{ inputs.DEVICE_NAME }} (TWRP)
-        tag_name: ${{ github.run_id }}
-        body: |
-          Manifest: ${{ inputs.MANIFEST_BRANCH }}
-          Target: ${{ inputs.BUILD_TARGET }}.img
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload to FILE.IO
+      run: |
+        cd workspace/out/target/product/${{ inputs.DEVICE_NAME }}/
+        RESPONSE=$(curl -F "file=@${{ inputs.BUILD_TARGET }}.img" https://file.io)
+        echo "Upload response: $RESPONSE"

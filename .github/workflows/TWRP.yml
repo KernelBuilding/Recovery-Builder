@@ -158,9 +158,7 @@ jobs:
         sed -i "s%{DEVICE_PATH}%${{ inputs.DEVICE_PATH }}%g" .repo/local_manifests/roomservice.xml
         sed -i "s%{DEVICE_REMOTE_NAME}%${REMOTE_NAME}%g" .repo/local_manifests/roomservice.xml
         sed -i "s%{DEVICE_TREE_BRANCH}\"/-->%${{ inputs.DEVICE_TREE_BRANCH }}\"/>%g" .repo/local_manifests/roomservice.xml
-    
-        # Clone repository dengan autentikasi
-        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@${{ inputs.DEVICE_TREE_URL }} -b ${{ inputs.DEVICE_TREE_BRANCH }} ./${{ inputs.DEVICE_PATH }}
+        repo sync -j$(nproc --all)
       working-directory: workspace
 
     - name: Clone device tree (Omni)

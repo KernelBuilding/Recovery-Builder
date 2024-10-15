@@ -1,4 +1,4 @@
-name: TWRP Recovery Build
+name: DARK Recovery Build
 
 on:
   workflow_dispatch:
